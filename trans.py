@@ -18,15 +18,14 @@ INPUT_FILE = os.path.join('app', 'src', 'main', 'res', 'values', 'strings.xml')
 # Một số ngôn ngữ có mã khác nhau giữa Android và Google Translate
 ANDROID_TO_GOOGLE_LANG_MAP = {
     'in': 'id',  # Indonesia: Android dùng 'in', Google Translate dùng 'id'
+    'fil': 'tl', # Filipino: Android dùng 'fil', Google Translate dùng 'tl'
 }
 
 
 def get_google_translate_lang(android_lang: str) -> str:
     """Chuyển đổi mã ngôn ngữ Android sang mã Google Translate.
-    
     Args:
         android_lang: Mã ngôn ngữ Android (có thể có region, ví dụ: 'in', 'in-rID')
-    
     Returns:
         Mã ngôn ngữ cho Google Translate (ví dụ: 'id' cho 'in')
     """
@@ -37,6 +36,9 @@ def get_google_translate_lang(android_lang: str) -> str:
         return 'zh-CN'
     if code.lower() == 'zh-tw':
         return 'zh-TW'
+    # Xử lý đặc biệt cho fil (Filipino)
+    if code.lower() == 'fil':
+        return 'tl'
     # Xử lý trường hợp có region (ví dụ: 'in-rID' -> 'in')
     lang_code = code.split('-')[0]
     # Nếu có mapping thì dùng, không thì giữ nguyên
@@ -58,6 +60,9 @@ def android_values_folder(lang_code: str) -> str:
         return 'values-zh-rCN'
     if code.lower() == 'zh-tw':
         return 'values-zh-rTW'
+    # Xử lý đặc biệt cho fil (Filipino)
+    if code.lower() == 'fil':
+        return 'values-fil'
     parts = code.split('-')
     if len(parts) == 1:
         return f'values-{parts[0]}'
